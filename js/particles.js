@@ -95,26 +95,26 @@
 
 (function(){
   var photos = [
-    { n:'01', alt:'Two large stylized eyes painted across a brick wall, in ochre and brown tones.' },
-    { n:'05', alt:'A sports car rendered in red and black spray paint over cracked concrete, with a small cartoon character in the corner.' },
-    { n:'06', alt:"The tag \u201cMarco\u201d in orange and blue bubble lettering on a concrete wall in a cleared lot." },
-    { n:'07', alt:'A yellow, red, and black bubble-letter piece on weathered brick, with looser tags scrawled beneath it.' },
-    { n:'09', alt:'Green and yellow tags layered on brick, with red freehand scrawl underneath.' },
-    { n:'10', alt:'A simple black line-art face sketched across old red brick.' },
-    { n:'11', alt:'A pink, teal, and white bubble-letter tag against a dark wall.' },
-    { n:'12', alt:'A painted skull with crossed paintbrushes, in red, yellow, and black.' },
-    { n:'13', alt:'A stencilled Dalmatian, black spots on white, on bare concrete.' },
-    { n:'14', alt:"A red and yellow piece ending in \u201c\u2026BOY,\u201d signed and dated 08.01.2014." },
-    { n:'15', alt:'A green, multicolor tag on pale concrete, with dry brush at the base of the wall.' },
-    { n:'16', alt:'A green bubble-letter tag on a dark wall, surrounded by smaller tags and doodled hearts.' },
-    { n:'17', alt:'A black-and-white bubble-letter tag on peeling plaster, with new plant growth at its base.' },
-    { n:'18', alt:"Black lettering reading \u201c\u041f\u0420\u0410\u0412\u0414\u0410\u201d (\u201ctruth\u201d) beside a stencilled question mark, with a blue tag below, photographed in snow." },
-    { n:'02', alt:'A purple bubble-letter tag flecked with yellow dots, on a rough concrete wall, framed with a decorative photo border.' },
-    { n:'03', alt:"The word \u201cGO\u201d in glossy blue bubble letters over a mustard-yellow and cream wall, with a small \u20181\u2019 tag beside it." },
-    { n:'08', alt:'A basketball backboard repainted as a bright green, red, and orange abstract mural, hoop still attached.' },
-    { n:'19', alt:'Large freestanding letter sculptures at a skate park, covered edge to edge in painted flowers, tags, and handprints.' },
-    { n:'20', alt:'A realist mural of horses running across a wall, painted in warm browns and cream.' },
-    { n:'21', alt:'A rainbow-colored ring tunnel installation leading down a wooden walkway.' }
+    { n:'01', thumb:'01s.jpg', alt:'Two large stylized eyes painted across a brick wall, in ochre and brown tones.' },
+    { n:'05', thumb:'05s.jpg', alt:'A sports car rendered in red and black spray paint over cracked concrete, with a small cartoon character in the corner.' },
+    { n:'06', thumb:'06s.jpg', alt:"The tag \u201cMarco\u201d in orange and blue bubble lettering on a concrete wall in a cleared lot." },
+    { n:'07', thumb:'07s.jpg', alt:'A yellow, red, and black bubble-letter piece on weathered brick, with looser tags scrawled beneath it.' },
+    { n:'09', thumb:'09s.jpg', alt:'Green and yellow tags layered on brick, with red freehand scrawl underneath.' },
+    { n:'10', thumb:'10s.jpg', alt:'A simple black line-art face sketched across old red brick.' },
+    { n:'11', thumb:'11s.jpg', alt:'A pink, teal, and white bubble-letter tag against a dark wall.' },
+    { n:'12', thumb:'12s.jpg', alt:'A painted skull with crossed paintbrushes, in red, yellow, and black.' },
+    { n:'13', thumb:'13s.jpg', alt:'A stencilled Dalmatian, black spots on white, on bare concrete.' },
+    { n:'14', thumb:'14s.jpg', alt:"A red and yellow piece ending in \u201c\u2026BOY,\u201d signed and dated 08.01.2014." },
+    { n:'15', thumb:'15s.jpg', alt:'A green, multicolor tag on pale concrete, with dry brush at the base of the wall.' },
+    { n:'16', thumb:'16s.jpg', alt:'A green bubble-letter tag on a dark wall, surrounded by smaller tags and doodled hearts.' },
+    { n:'17', thumb:'17s.jpg', alt:'A black-and-white bubble-letter tag on peeling plaster, with new plant growth at its base.' },
+    { n:'18', thumb:'18s.jpg', alt:"Black lettering reading \u201c\u041f\u0420\u0410\u0412\u0414\u0410\u201d (\u201ctruth\u201d) beside a stencilled question mark, with a blue tag below, photographed in snow." },
+    { n:'02', thumb:'02.jpg', alt:'A purple bubble-letter tag flecked with yellow dots, on a rough concrete wall, framed with a decorative photo border.' },
+    { n:'03', thumb:'03.jpg', alt:"The word \u201cGO\u201d in glossy blue bubble letters over a mustard-yellow and cream wall, with a small \u20181\u2019 tag beside it." },
+    { n:'08', thumb:'08.jpg', alt:'A basketball backboard repainted as a bright green, red, and orange abstract mural, hoop still attached.' },
+    { n:'19', thumb:'19.jpg', alt:'Large freestanding letter sculptures at a skate park, covered edge to edge in painted flowers, tags, and handprints.' },
+    { n:'20', thumb:'20.jpg', alt:'A realist mural of horses running across a wall, painted in warm browns and cream.' },
+    { n:'21', thumb:'21.jpg', alt:'A rainbow-colored ring tunnel installation leading down a wooden walkway.' }
   ];
 
   var current = 0;
@@ -134,19 +134,19 @@
     if (fade){
       img.style.opacity = '0';
       setTimeout(function(){
-        img.src = 'images/' + photo.n + 's.jpg';
+        img.src = 'images/' + photo.thumb;
         img.alt = photo.alt;
         img.style.opacity = '1';
       }, 120);
     } else {
-      img.src = 'images/' + photo.n + 's.jpg';
+      img.src = 'images/' + photo.thumb;
       img.alt = photo.alt;
     }
   }
 
-  function preload(n){
+  function preload(photo){
     var img = new Image();
-    img.src = 'images/' + n + 's.jpg';
+    img.src = 'images/' + photo.thumb;
   }
 
   function render(){
@@ -155,8 +155,8 @@
     setImg(elLeft, photos[left]);
     setImg(elCenter, photos[current], true);
     setImg(elRight, photos[right]);
-    preload(photos[(left - 1 + photos.length) % photos.length].n);
-    preload(photos[(right + 1) % photos.length].n);
+    preload(photos[(left - 1 + photos.length) % photos.length]);
+    preload(photos[(right + 1) % photos.length]);
   }
 
   function goPrev(){ current = (current - 1 + photos.length) % photos.length; render(); }
