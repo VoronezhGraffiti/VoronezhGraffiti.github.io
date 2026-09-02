@@ -12,17 +12,17 @@
 </head>
 <body>
 
-<div id="loading">Loading gallery&hellip;</div>
+<div id="loading" role="status" aria-label="Loading gallery"><img src="images/loading.gif" alt="" width="32" height="32"></div>
 <canvas id="particles"></canvas>
 <div id="screen-wrap">
   <div id="stage">
-    <button id="car-prev" class="car-arrow" aria-label="Previous photo">&#8249;</button>
+    <button id="car-prev" class="car-arrow" aria-label="Previous photo"><img src="images/prev.png" alt="" width="28" height="25"></button>
     <div id="carousel">
       <div class="car-peek" id="peek-left" tabindex="0" role="button" aria-label="Previous photo"><img src="" alt=""></div>
       <div class="car-center" id="peek-center" tabindex="0" role="button" aria-label="Open full-size photo"><img src="" alt=""></div>
       <div class="car-peek" id="peek-right" tabindex="0" role="button" aria-label="Next photo"><img src="" alt=""></div>
     </div>
-    <button id="car-next" class="car-arrow" aria-label="Next photo">&#8250;</button>
+    <button id="car-next" class="car-arrow" aria-label="Next photo"><img src="images/next.png" alt="" width="28" height="25"></button>
   </div>
 </div>
 <div id="footer-text">
@@ -30,10 +30,10 @@
 </div>
 
 <div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
-  <button id="lb-close" aria-label="Close">&times;</button>
-  <button id="lb-prev" class="lb-btn" aria-label="Previous photo">&#8249;</button>
+  <button id="lb-close" aria-label="Close"><img src="images/close.png" alt="" width="18" height="18"></button>
+  <button id="lb-prev" class="lb-btn" aria-label="Previous photo"><img src="images/prev.png" alt="" width="24" height="22"></button>
   <img id="lb-img" src="" alt="">
-  <button id="lb-next" class="lb-btn" aria-label="Next photo">&#8250;</button>
+  <button id="lb-next" class="lb-btn" aria-label="Next photo"><img src="images/next.png" alt="" width="24" height="22"></button>
   <p id="lightbox-cap"></p>
   <p id="lightbox-count"></p>
 </div>

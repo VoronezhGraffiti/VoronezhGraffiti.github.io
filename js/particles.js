@@ -1,11 +1,10 @@
 (function(){
-  // ambient particle layer - matches the original particles.json config exactly
-  // (80 particles, #f9f3f4 fill, white links up to distance 200, speed 1)
+  // ambient particle layer - config loaded from particles.json at runtime,
+  // falls back to the same defaults if the fetch fails (e.g. opened via file://)
   var canvas = document.getElementById('particles');
   var ctx = canvas.getContext('2d');
   var particles = [];
-  var COUNT = 80;
-  var LINK_DIST = 200;
+  var DEFAULTS = { count: 80, color: '#f9f3f4', opacity: 0.5, linkDist: 200, speed: 1 };
 
   function resize(){
     canvas.width = window.innerWidth;
@@ -14,54 +13,84 @@
   window.addEventListener('resize', resize);
   resize();
 
-  for (var i = 0; i < COUNT; i++){
-    var angle = Math.random() * Math.PI * 2;
-    particles.push({
-      x: Math.random() * canvas.width,
-      y: Math.random() * canvas.height,
-      vx: Math.cos(angle) * 0.5,
-      vy: Math.sin(angle) * 0.5,
-      r: 2,
-      o: Math.random() * 0.5
-    });
+  function hexToRgb(hex){
+    hex = hex.replace('#', '');
+    return {
+      r: parseInt(hex.substring(0, 2), 16),
+      g: parseInt(hex.substring(2, 4), 16),
+      b: parseInt(hex.substring(4, 6), 16)
+    };
   }
 
-  function step(){
-    ctx.clearRect(0, 0, canvas.width, canvas.height);
+  function start(cfg){
+    var rgb = hexToRgb(cfg.color);
+    var speedMag = cfg.speed / 2;
 
-    for (var i = 0; i < particles.length; i++){
-      var p = particles[i];
-      p.x += p.vx;
-      p.y += p.vy;
-      if (p.x + p.r > canvas.width || p.x - p.r < 0) p.vx = -p.vx;
-      if (p.y + p.r > canvas.height || p.y - p.r < 0) p.vy = -p.vy;
-
-      ctx.beginPath();
-      ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
-      ctx.fillStyle = 'rgba(249,243,244,' + p.o + ')';
-      ctx.fill();
+    for (var i = 0; i < cfg.count; i++){
+      var angle = Math.random() * Math.PI * 2;
+      particles.push({
+        x: Math.random() * canvas.width,
+        y: Math.random() * canvas.height,
+        vx: Math.cos(angle) * speedMag,
+        vy: Math.sin(angle) * speedMag,
+        r: 2,
+        o: Math.random() * cfg.opacity
+      });
     }
 
-    for (var a = 0; a < particles.length; a++){
-      for (var b = a + 1; b < particles.length; b++){
-        var dx = particles[a].x - particles[b].x;
-        var dy = particles[a].y - particles[b].y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
-        if (dist < LINK_DIST){
-          ctx.beginPath();
-          ctx.moveTo(particles[a].x, particles[a].y);
-          ctx.lineTo(particles[b].x, particles[b].y);
-          ctx.strokeStyle = 'rgba(255,255,255,' + (1 - dist / LINK_DIST) + ')';
-          ctx.lineWidth = 1;
-          ctx.stroke();
+    function step(){
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      for (var i = 0; i < particles.length; i++){
+        var p = particles[i];
+        p.x += p.vx;
+        p.y += p.vy;
+        if (p.x + p.r > canvas.width || p.x - p.r < 0) p.vx = -p.vx;
+        if (p.y + p.r > canvas.height || p.y - p.r < 0) p.vy = -p.vy;
+
+        ctx.beginPath();
+        ctx.arc(p.x, p.y, p.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(' + rgb.r + ',' + rgb.g + ',' + rgb.b + ',' + p.o + ')';
+        ctx.fill();
+      }
+
+      for (var a = 0; a < particles.length; a++){
+        for (var b = a + 1; b < particles.length; b++){
+          var dx = particles[a].x - particles[b].x;
+          var dy = particles[a].y - particles[b].y;
+          var dist = Math.sqrt(dx * dx + dy * dy);
+          if (dist < cfg.linkDist){
+            ctx.beginPath();
+            ctx.moveTo(particles[a].x, particles[a].y);
+            ctx.lineTo(particles[b].x, particles[b].y);
+            ctx.strokeStyle = 'rgba(255,255,255,' + (1 - dist / cfg.linkDist) + ')';
+            ctx.lineWidth = 1;
+            ctx.stroke();
+          }
         }
       }
+
+      requestAnimationFrame(step);
     }
 
-    requestAnimationFrame(step);
+    step();
   }
 
-  step();
+  fetch('particles.json')
+    .then(function(res){ return res.json(); })
+    .then(function(data){
+      var p = data.particles || {};
+      start({
+        count: (p.number && p.number.value) || DEFAULTS.count,
+        color: (p.color && p.color.value) || DEFAULTS.color,
+        opacity: (p.opacity && p.opacity.value) || DEFAULTS.opacity,
+        linkDist: (p.line_linked && p.line_linked.distance) || DEFAULTS.linkDist,
+        speed: (p.move && p.move.speed) || DEFAULTS.speed
+      });
+    })
+    .catch(function(){
+      start(DEFAULTS);
+    });
 })();
 
 (function(){
