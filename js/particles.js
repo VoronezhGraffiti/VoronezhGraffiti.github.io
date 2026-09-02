@@ -22,6 +22,14 @@
     };
   }
 
+  var mouse = { x: null, y: null, active: false };
+  window.addEventListener('mousemove', function(e){
+    mouse.x = e.clientX;
+    mouse.y = e.clientY;
+    mouse.active = true;
+  });
+  window.addEventListener('mouseout', function(){ mouse.active = false; });
+
   function start(cfg){
     var rgb = hexToRgb(cfg.color);
     var speedMag = cfg.speed / 2;
@@ -66,6 +74,27 @@
             ctx.strokeStyle = 'rgba(255,255,255,' + (1 - dist / cfg.linkDist) + ')';
             ctx.lineWidth = 1;
             ctx.stroke();
+          }
+        }
+      }
+
+      if (mouse.active){
+        var GRAB_DIST = 100;
+        for (var m = 0; m < particles.length; m++){
+          var pm = particles[m];
+          var dxm = pm.x - mouse.x;
+          var dym = pm.y - mouse.y;
+          var distMouse = Math.sqrt(dxm * dxm + dym * dym);
+          if (distMouse <= GRAB_DIST){
+            var opacityLine = 1 - (distMouse / GRAB_DIST);
+            if (opacityLine > 0){
+              ctx.beginPath();
+              ctx.moveTo(pm.x, pm.y);
+              ctx.lineTo(mouse.x, mouse.y);
+              ctx.strokeStyle = 'rgba(255,255,255,' + opacityLine + ')';
+              ctx.lineWidth = 1;
+              ctx.stroke();
+            }
           }
         }
       }
