@@ -29,10 +29,28 @@
     mouse.active = true;
   });
   window.addEventListener('mouseout', function(){ mouse.active = false; });
+  window.addEventListener('click', function(e){
+    if (e.target !== canvas) return;
+    for (var i = 0; i < 4; i++){
+      var angle = Math.random() * Math.PI * 2;
+      particles.push({
+        x: e.clientX,
+        y: e.clientY,
+        vx: Math.cos(angle) * currentSpeedMag,
+        vy: Math.sin(angle) * currentSpeedMag,
+        r: 2,
+        o: Math.random() * currentOpacity
+      });
+    }
+  });
+  var currentSpeedMag = 0.5;
+  var currentOpacity = 0.5;
 
   function start(cfg){
     var rgb = hexToRgb(cfg.color);
     var speedMag = cfg.speed / 2;
+    currentSpeedMag = speedMag;
+    currentOpacity = cfg.opacity;
 
     for (var i = 0; i < cfg.count; i++){
       var angle = Math.random() * Math.PI * 2;
