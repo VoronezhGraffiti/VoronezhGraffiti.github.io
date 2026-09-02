@@ -1,56 +1,43 @@
 <!DOCTYPE html>
-<html lang="en-us">
+<html lang="en">
 <head>
-  <meta charset="utf-8">
- 
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <meta http-equiv="X-UA-Compatible" content="ie=edge">
- 
-<title> Gallery Image</title>
-  <link rel="stylesheet" type="text/css" href="css/style.css">
- <link rel="stylesheet" href="css/lightbox.min.css" type="text/css" media="screen">
-  <script src="js/lightbox-plus-jquery.min.js"></script>
- 
+<meta charset="UTF-8">
+<title>Voronezh Graffiti — a street art gallery</title>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="description" content="A 3D photo gallery of street art and graffiti photographed around Voronezh, Russia.">
+<meta property="og:title" content="Voronezh Graffiti">
+<meta property="og:description" content="A 3D photo gallery of street art and graffiti photographed around Voronezh, Russia.">
+<meta property="og:type" content="website">
+<link rel="stylesheet" href="css/style.css">
 </head>
 <body>
- 
-<div class="images">
- <div class="row">
-  <div class="column">
- <a href="images/01.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/01s.jpg" alt="Two large stylized eyes painted across a brick wall, in ochre and brown tones."/></a>
- <a href="images/05.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/05s.jpg" alt="A sports car rendered in red and black spray paint over cracked concrete, with a small cartoon character in the corner."/></a>
- <a href="images/06.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/06s.jpg" alt="The tag &#8220;Marco&#8221; in orange and blue bubble lettering on a concrete wall in a cleared lot."/></a>
- <a href="images/07.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/07s.jpg" alt="A yellow, red, and black bubble-letter piece on weathered brick, with looser tags scrawled beneath it."/></a>
- <a href="images/09.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/09s.jpg" alt="Green and yellow tags layered on brick, with red freehand scrawl underneath."/></a>
- <a href="images/10.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/10s.jpg" alt="A simple black line-art face sketched across old red brick."/></a>
- <a href="images/11.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/11s.jpg" alt="A pink, teal, and white bubble-letter tag against a dark wall."/></a>
- <a href="images/12.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/12s.jpg" alt="A painted skull with crossed paintbrushes, in red, yellow, and black."/></a>
- <a href="images/13.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/13s.jpg" alt="A stencilled Dalmatian, black spots on white, on bare concrete."/></a>
- <a href="images/14.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/14s.jpg" alt="A red and yellow piece ending in &#8220;&#8230;BOY,&#8221; signed and dated 08.01.2014."/></a>
- <a href="images/15.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/15s.jpg" alt="A green, multicolor tag on pale concrete, with dry brush at the base of the wall."/></a>
- <a href="images/16.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/16s.jpg" alt="A green bubble-letter tag on a dark wall, surrounded by smaller tags and doodled hearts."/></a>
- <a href="images/17.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/17s.jpg" alt="A black-and-white bubble-letter tag on peeling plaster, with new plant growth at its base."/></a>
- <a href="images/18.jpg" data-lightbox="example-set" data-title="By Diyar Hussein at Voronezh, RU"><img  src="images/18s.jpg" alt="Black lettering reading &#8220;&#1055;&#1056;&#1040;&#1042;&#1044;&#1040;&#8221; (&#8220;truth&#8221;) beside a stencilled question mark, with a blue tag below, photographed in snow."/></a>
- </div>
- </div>
-  </div>
-  
-  
-        <div class="btext">
-    <h1>Media Gallery</h1>
-         </div>
-<div id="particles-js"> </div>
-    <script src="js/particles.js"></script>
 
-    <script>
-        particlesJS.load('particles-js', 'particles.json',
-        function(){
-            console.log('particles.json loaded...')
-        })
-    </script>
-   
-   
-  
- 
+<div id="loading">Loading gallery&hellip;</div>
+<canvas id="particles"></canvas>
+<div id="screen-wrap">
+  <div id="stage">
+    <button id="car-prev" class="car-arrow" aria-label="Previous photo">&#8249;</button>
+    <div id="carousel">
+      <div class="car-peek" id="peek-left" tabindex="0" role="button" aria-label="Previous photo"><img src="" alt=""></div>
+      <div class="car-center" id="peek-center" tabindex="0" role="button" aria-label="Open full-size photo"><img src="" alt=""></div>
+      <div class="car-peek" id="peek-right" tabindex="0" role="button" aria-label="Next photo"><img src="" alt=""></div>
+    </div>
+    <button id="car-next" class="car-arrow" aria-label="Next photo">&#8250;</button>
+  </div>
+</div>
+<div id="footer-text">
+  <div id="title">Voronezh Graffiti</div>
+</div>
+
+<div id="lightbox" role="dialog" aria-modal="true" aria-label="Photo viewer">
+  <button id="lb-close" aria-label="Close">&times;</button>
+  <button id="lb-prev" class="lb-btn" aria-label="Previous photo">&#8249;</button>
+  <img id="lb-img" src="" alt="">
+  <button id="lb-next" class="lb-btn" aria-label="Next photo">&#8250;</button>
+  <p id="lightbox-cap"></p>
+  <p id="lightbox-count"></p>
+</div>
+
+<script src="js/particles.js"></script>
 </body>
 </html>
