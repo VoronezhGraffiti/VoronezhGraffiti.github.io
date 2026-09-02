@@ -248,6 +248,12 @@
     lbImg.alt = p.alt;
     lbCap.textContent = p.alt;
     lbCount.textContent = (current + 1) + ' / ' + photos.length;
+    preloadFull(photos[(current - 1 + photos.length) % photos.length]);
+    preloadFull(photos[(current + 1) % photos.length]);
+  }
+  function preloadFull(photo){
+    var img = new Image();
+    img.src = 'images/' + photo.n + '.jpg';
   }
   function closeLightbox(){ lb.classList.remove('open'); render(); }
   function lbPrev(){ current = (current - 1 + photos.length) % photos.length; showCurrent(); }
